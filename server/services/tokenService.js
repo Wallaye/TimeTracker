@@ -29,18 +29,15 @@ export async function findToken(refreshToken){
 
 export function validateAccessToken(token){
     try{
-        const response = jwt.verify(token, process.env.JWT_ACCESS_TOKEN);
-        return response;
+        return jwt.verify(token, process.env.JWT_ACCESS_TOKEN);
     } catch (e){
         return null;
     }
 }
 export function validateRefreshToken(token){
     try{
-        const userData = jwt.verify(token, process.env.JWT_REFRESH_TOKEN);
-        return userData;
+        return jwt.verify(token, process.env.JWT_REFRESH_TOKEN);
     } catch (e){
-        console.log(e);
         return null;
     }
 }

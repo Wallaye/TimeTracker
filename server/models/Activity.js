@@ -8,8 +8,8 @@ const Activity = new mongoose.Schema({
     isFinished: {type: Boolean, default: false},
     startDate: {type: Date, default: Date.now()},
     finishDate: {type: Date, default: null},
-    userName: {type: String, required: true},
-    project: {type: String, default: null}
+    user: {type: Schema.Types.ObjectId, ref: "users"},
+    project: {type: Schema.Types.ObjectId, ref: "projects", default: null}
 })
 
 export default mongoose.model('Activities', Activity)

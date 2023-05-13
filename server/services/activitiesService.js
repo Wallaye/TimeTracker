@@ -1,22 +1,22 @@
 import Activity from "../models/Activity.js";
 import {ApiError} from "../exceptions/apiError.js";
 
-export async function getAllActivitiesForUser(userName){
-    return Activity.find({userName: userName});
+export async function getAllActivitiesForUser(userId){
+    return Activity.find({user: userId});
 }
 
-export async function getActivityById(activityId, userName){
+export async function getActivityById(activityId, userId){
     const activity = await Activity.findOne({activityId});
     if (!activity){
         throw ApiError.BadRequest("Нет такой активности");
     }
-    if (activity.userName !== userName){
+    if (activity.user !== userId){
         throw ApiError.NoAccessError();
     }
     return activity;
 }
 
-export async function AddActivity(activity){
+export async function addActivity(activity){
     const activities = await Activity.find();
     let maxIndex = -1;
     for(const _activity of activities){
@@ -28,25 +28,25 @@ export async function AddActivity(activity){
     return Activity.create(activity);
 }
 
-export async function EditActivity(activity, userName){
+export async function editActivity(activity, userId){
     const act = await Activity.findOne({activityId: activity.activityId});
     console.log("found in db:", act);
 
     if (!act){
         throw ApiError.BadRequest("Нет такой активности");
     }
-    if (activity.userName !== userName){
+    if (activity.user !== userId){
         throw ApiError.NoAccessError();
     }
     return Activity.findOneAndUpdate({activityId: act.activityId}, activity, {new: true});
 }
 
-export async function DeleteActivity(activityId, userName){
+export async function deleteActivity(activityId, userId){
     const act = await Activity.findOne({activityId: activityId});
     if (!act){
         throw ApiError.BadRequest("Нет такой активности");
     }
-    if (act.userName !== userName){
+    if (act.user !== userId){
         throw ApiError.NoAccessError();
     }
     return Activity.findOneAndRemove({activityId});

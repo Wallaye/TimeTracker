@@ -7,6 +7,7 @@ import authRouter from "./routes/authRouter.js";
 import activitiesRouter from "./routes/activitiesRouter.js";
 import {error as errorMiddleware} from "./middleware/error.js";
 import cors from 'cors';
+import projectsRouter from "./routes/projectsRouter.js";
 
 
 dotenv.config()
@@ -23,6 +24,7 @@ app.use(cors({
 }))
 app.use("/api/auth", authRouter);
 app.use("/api", activitiesRouter);
+app.use("/api", projectsRouter);
 
 app.use(errorMiddleware)
 
