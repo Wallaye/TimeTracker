@@ -1,5 +1,5 @@
 import {ApiError} from "../exceptions/apiError.js";
-import * as tokenService from '../services/tokenService.js'
+import * as tokenService from '../services/tokenService.js';
 
 export default function (req, res, next){
     try{
@@ -15,7 +15,6 @@ export default function (req, res, next){
         if(!userData){
             return next(ApiError.UnauthorizedError())
         }
-
         req.user = userData
         next();
     } catch (e) {

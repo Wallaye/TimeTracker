@@ -1,6 +1,5 @@
 import express from 'express';
 import mongoose from "mongoose";
-import Activity from "./models/Activity.js";
 import * as dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
 import authRouter from "./routes/authRouter.js";
@@ -8,12 +7,11 @@ import activitiesRouter from "./routes/activitiesRouter.js";
 import {error as errorMiddleware} from "./middleware/error.js";
 import cors from 'cors';
 import projectsRouter from "./routes/projectsRouter.js";
-
+import adminRouter from "./routes/adminRouter.js";
 
 dotenv.config()
 const PORT = process.env.PORT || 5000;
 const URL = process.env.DB_URL;
-
 
 const app = express();
 app.use(express.json())
@@ -25,6 +23,7 @@ app.use(cors({
 app.use("/api/auth", authRouter);
 app.use("/api", activitiesRouter);
 app.use("/api", projectsRouter);
+app.use("/api/admin", adminRouter);
 
 app.use(errorMiddleware)
 
