@@ -1,4 +1,5 @@
 export interface IUser{
     userName: string;
-    id: string;
+    userId: string;
+    isAdmin: boolean;
 }

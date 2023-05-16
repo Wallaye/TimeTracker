@@ -9,7 +9,7 @@ const Activity = new mongoose.Schema({
     startDate: {type: Date, default: Date.now()},
     finishDate: {type: Date, default: null},
     user: {type: Schema.Types.ObjectId, ref: "Users"},
-    project: {type: Schema.Types.ObjectId, ref: "Projects", default: null}
+    project: {type: Number}
 })
 
 export default mongoose.model('Activities', Activity)

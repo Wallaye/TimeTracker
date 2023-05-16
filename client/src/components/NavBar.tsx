@@ -20,17 +20,21 @@ const NavBar: FC<NavBarProps>= (props) => {
             <div className="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul className="navbar-nav mr-auto">
                     <li className="nav-item">
-                        <a className="nav-link" href="/api/activities/">Home</a>
+                        <a className="nav-link" href="/api/activities/">Activities</a>
+                    </li>
+                    <li className="nav-item">
+                        <a className="nav-link" href="/api/projects/">Projects</a>
                     </li>
                 </ul>
             </div>
             <div className="my-2 my-lg-0">
-                <span className="mr-sm-2 text-black">{props.userName}</span>
+                {userStore.user.isAdmin && <span className="mr-sm-2 text-primary">{props.userName}</span>}
+                {!userStore.user.isAdmin && <span className="mr-sm-2 text-black">{props.userName}</span>}
                 <button onClick={() => {
                     navigate('/api/activities/')
                     userStore.logout();
                     //actStore.setActivities([] as IActivity[])
-                }} className="btn btn-outline-danger my-2 my-sm-0">Выйти</button>
+                }} className="btn btn-outline-danger ml-1 my-2 my-sm-0">Выйти</button>
             </div>
         </nav>
     );

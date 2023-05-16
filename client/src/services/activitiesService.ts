@@ -7,14 +7,13 @@ export default class ActivitiesService{
         return await api.get<IActivity[]>('/activities/')
     }
     static async getActivity(id: number){
-        console.log(id);
         return await api.get<IActivity>('/activities/' + id);
     }
     static async deleteActivity(id: number){
         return await api.delete('/activities/' + id);
     }
-    static async saveActivity(activity: IActivity, userName: string){
-        return await api.put('/activities/', {activity, userName});
+    static async saveActivity(activity: IActivity, user: string){
+        return await api.put('/activities/', {activity, user});
     }
     static async addActivity(activity: IActivity){
         return await api.post('/activities/', {activity});

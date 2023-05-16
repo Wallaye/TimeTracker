@@ -7,12 +7,13 @@ export async function getAllActivitiesForUser(userId) {
 }
 
 export async function getActivityById(activityId, userId) {
+    console.log(activityId);
     const activity = await Activity.findOne({activityId});
     if (!activity) {
         throw ApiError.BadRequest("Нет такой активности");
     }
     const user = await getUserById(userId);
-    if (activity.user === userId || user.isAdmin) {
+    if (activity.user == userId || user.isAdmin) {
         return activity;
     }
     throw ApiError.NoAccessError();
@@ -32,13 +33,12 @@ export async function addActivity(activity) {
 
 export async function editActivity(activity, userId) {
     const act = await Activity.findOne({activityId: activity.activityId});
-    console.log("found in db:", act);
-
     if (!act) {
         throw ApiError.BadRequest("Нет такой активности");
     }
+    console.log(userId);
     const user = await getUserById(userId);
-    if (activity.user === userId || user.isAdmin) {
+    if (activity.user == userId || user.isAdmin) {
         return Activity.findOneAndUpdate({activityId: act.activityId}, activity, {new: true});
     }
     throw ApiError.NoAccessError();
@@ -50,7 +50,7 @@ export async function deleteActivity(activityId, userId) {
         throw ApiError.BadRequest("Нет такой активности");
     }
     const user = await getUserById(userId);
-    if (act.user === userId || user.isAdmin) {
+    if (act.user == userId || user.isAdmin) {
         return Activity.findOneAndRemove({activityId});
     }
     throw ApiError.NoAccessError();

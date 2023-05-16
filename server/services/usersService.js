@@ -2,7 +2,7 @@ import User from "../models/User.js";
 import {UserDto} from "../dtos/userDto.js";
 
 export async function getUserById(userId){
-    const user = await User.find({_id: userId});
+    const user = await User.findById(userId);
     return new UserDto(user);
 }
 

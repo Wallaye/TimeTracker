@@ -9,3 +9,4 @@ adminRouter.get('/users/', authMiddleware, adminMiddleware, userController.getAl
 adminRouter.get('/users/:id', authMiddleware, adminMiddleware, userController.getUser);
 
 export default adminRouter;
+

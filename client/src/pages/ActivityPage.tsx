@@ -5,11 +5,7 @@ import {useNavigate, useParams} from "react-router-dom";
 import ActivitiesService from "../services/activitiesService";
 import NavBar from "../components/NavBar";
 import {Context} from "../index";
-
-interface IError {
-    status: number,
-    message: string;
-}
+import {IError} from "../models/IError";
 
 const ActivityPage: FC = () => {
     const {id} = useParams<string>();
@@ -27,8 +23,8 @@ const ActivityPage: FC = () => {
         isActive: false,
         isFinished: false,
         activityId: -1,
-        project: "",
-        userName: userStore.user.userName
+        project: -1,
+        user: userStore.user.userId
     })
 
     useEffect(() => {
@@ -124,6 +120,7 @@ const ActivityPage: FC = () => {
                         setFields({...fields, isActive: true});
                         if (canAddActivity(fields.name)) {
                             console.log("Adding");
+                            console.log(fields);
                             ActivitiesService.addActivity({...fields, isActive: true}).then(activity => {
                                 setFields({
                                     ...fields,
@@ -149,7 +146,7 @@ const ActivityPage: FC = () => {
                                         isFinished: true,
                                         isActive: false,
                                         finishDate: DateToStringForInput(Date.now())
-                                    }, userStore.user.userName);
+                                    }, userStore.user.userId);
                                 }
                             }}>Завершить</button>}
                 {(!fields.isActive && fields.isFinished && fields.name.trim() != "") &&

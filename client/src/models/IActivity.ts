@@ -6,6 +6,6 @@ export interface IActivity {
     isFinished: boolean,
     startDate: string,
     finishDate: string,
-    userName: string,
-    project: string
+    user: string,
+    project: number
 }
