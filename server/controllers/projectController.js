@@ -14,7 +14,8 @@ export async function getProjectById(req, res){
     try {
         const {id} = req.params;
         const {userId} = req.user;
-        const project = PS.getProjectById(id, userId);
+        const project = await PS.getProjectById(id, userId);
+        console.log(project);
         res.json(project);
     } catch(e){
         res.status(e.status).json(e);

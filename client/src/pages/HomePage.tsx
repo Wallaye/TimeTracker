@@ -11,14 +11,14 @@ interface HomePageProps {
 }
 
 const HomePage: FC<HomePageProps> = ({activities}) => {
-    const {userStore, actStore} = useContext(Context);
+    const {userStore, actStore, projStore} = useContext(Context);
     const navigate = useNavigate();
 
     useEffect(() => {
-            actStore.getActivities()
+            actStore.getActivities().then();
+            projStore.getProjects().then();
         }
-        , [actStore])
-
+        , [actStore, projStore])
     if (actStore.isLoading) {
         return <div className="align-self-center spinner-border text-primary" role="status">
             <span className="sr-only"></span>
@@ -33,7 +33,9 @@ const HomePage: FC<HomePageProps> = ({activities}) => {
                     <span className="h1 align-self-center">Нет активностей!</span>
                 </div>
                 <div className="row w-auto">
-                    <button className="btn btn-success mb-3" onClick={() => navigate('-1')}>Добавить активность</button>
+                    <button className="btn btn-success mb-3" onClick={() => navigate('/api/activities/-1')}>Добавить
+                        активность
+                    </button>
                 </div>
             </div>
         </>
@@ -44,7 +46,8 @@ const HomePage: FC<HomePageProps> = ({activities}) => {
             <div>
                 <div className="container-fluid mt-3 d-flex justify-content-center">
                     <div className="row w-auto">
-                        <button className="btn btn-success mb-3" onClick={() => navigate('-1')}>Добавить активность
+                        <button className="btn btn-success mb-3" onClick={() => navigate('/api/activities/-1')}>Добавить
+                            активность
                         </button>
                     </div>
                 </div>

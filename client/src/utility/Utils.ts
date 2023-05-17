@@ -1,3 +1,5 @@
+import {IActivity} from "../models/IActivity";
+
 export function DateToStringForInput(str: number | string){
     let time = new Date(str);
     let year = time.getFullYear();
@@ -30,6 +32,11 @@ export const getTimeDiff = (_time1: string, _time2: string) => {
     let date2 = new Date(_time2);
     let diff = date2.getTime() - date1.getTime()
     let date = new Date(diff);
+    return getHoursAndMinutes(date);
+}
+
+export const getHoursAndMinutes = (date1: Date): string => {
+    let date = new Date(date1);
     let year = date.getFullYear() - 1970;
     let month = date.getMonth();
     let day = date.getDate();
@@ -39,4 +46,17 @@ export const getTimeDiff = (_time1: string, _time2: string) => {
     let hoursRes = year * 8760 + month * 730 + (day - 1) * 24 + hours - 3;
     let hoursString = getString(hoursRes)
     return `${hoursString}:${minutesString}`
+}
+
+export const getSumTime = (activities: IActivity[]) => {
+    let timeDiff = new Date(0);
+    activities.forEach(el => {
+        if (el.finishDate != null){
+            let date1 = new Date(el.startDate);
+            let date2 = new Date(el.finishDate);
+            let diff = date2.getTime() - date1.getTime()
+            timeDiff = new Date(timeDiff.getTime() + diff);
+        }
+    })
+    return getHoursAndMinutes(timeDiff);
 }

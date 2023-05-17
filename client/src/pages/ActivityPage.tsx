@@ -11,7 +11,7 @@ const ActivityPage: FC = () => {
     const {id} = useParams<string>();
     const [activity, setActivity] = useState<IActivity>({} as IActivity);
     const [isLoading, setLoading] = useState<boolean>(false);
-    const {userStore} = useContext(Context);
+    const {userStore, projStore} = useContext(Context);
     const navigate = useNavigate();
     const [error, setError] = useState<IError | null>(null)
 
@@ -49,9 +49,12 @@ const ActivityPage: FC = () => {
         }
     }, [])
 
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         const {name, value} = event.target;
-        setFields({...fields, [name]: value});
+        console.log(value);
+        if (name == "project")
+            setFields({...fields, [name]: +value});
+        else setFields({...fields, [name]: value});
     }
 
     useEffect(() => {
@@ -77,14 +80,13 @@ const ActivityPage: FC = () => {
             </div>
         </>
     }
-
     return (
         <>
             <NavBar userName={userStore.user.userName}/>
             <div className="container-fluid mt-3">
                 {fields.activityId != -1 && <button onClick={() => {
                     ActivitiesService.deleteActivity(fields.activityId);
-                    navigate(-1);
+                    navigate('/api/activities/');
                 }
                 } className="btn btn-danger">Удалить</button>}
                 <input hidden name="id" value={activity.activityId}/>
@@ -100,8 +102,18 @@ const ActivityPage: FC = () => {
                 </div>
                 <div className="form-group">
                     <label htmlFor="content">Проект</label>
-                    <input value={fields.project} onChange={handleChange} className="form-control"
+                    {/*<input value={fields.project} onChange={handleChange} className="form-control"
                            name="project" placeholder="Проект.."/>
+                    */}
+                    <select name="project" className="form-select" onChange={handleChange}
+                            defaultValue={fields.project}>
+                        <option key={-1} value={-1}>Выберите проект</option>
+                        {projStore.projects.map((project) => (
+                            <option key={project.projectId} value={project.projectId} className="form-select-option">
+                                {project.name}
+                            </option>
+                        ))}
+                    </select>
                 </div>
                 <div className="form-group">
                     <label htmlFor="date">Дата и время начала:</label><br/>
@@ -153,7 +165,8 @@ const ActivityPage: FC = () => {
                     <button className="btn btn-warning mt-2"
                             onClick={() => {
                                 if (canSaveActivity(fields)) {
-                                    ActivitiesService.saveActivity(fields, userStore.user.userName);
+                                    console.log(fields);
+                                    ActivitiesService.saveActivity(fields, userStore.user.userId);
                                 } else {
                                     alert("Окончание должно быть позже начала!")
                                 }

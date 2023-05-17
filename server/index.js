@@ -9,7 +9,7 @@ import cors from 'cors';
 import projectsRouter from "./routes/projectsRouter.js";
 import adminRouter from "./routes/adminRouter.js";
 
-dotenv.config()
+dotenv.config();
 const PORT = process.env.PORT || 5000;
 const URL = process.env.DB_URL;
 
@@ -24,6 +24,7 @@ app.use("/api/auth", authRouter);
 app.use("/api", activitiesRouter);
 app.use("/api", projectsRouter);
 app.use("/api/admin", adminRouter);
+
 
 app.use(errorMiddleware)
 

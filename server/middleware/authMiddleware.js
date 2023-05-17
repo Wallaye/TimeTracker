@@ -16,7 +16,6 @@ export default function (req, res, next){
             return next(ApiError.UnauthorizedError())
         }
         req.user = userData
-        console.log("ADS", req.user);
         next();
     } catch (e) {
         return next(ApiError.UnauthorizedError())

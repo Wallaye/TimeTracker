@@ -3,9 +3,7 @@ import * as actService from "../services/activitiesService.js"
 export async function getAllActivitiesForUser(req, res){
     try {
         const {userId} = req.user;
-        console.log(userId);
         const activities = await actService.getAllActivitiesForUser(userId);
-        console.log("OK" + activities);
         res.json(activities);
     } catch (e){
         res.status(500).json(e)
@@ -27,7 +25,6 @@ export async function getActivityById(req, res){
 export async function editActivity(req, res){
     try {
         let activity = req.body.activity;
-        console.log("LEL", req.user);
         let act = await actService.editActivity(activity, req.user.userId);
         res.json(act);
     } catch (e){
@@ -49,8 +46,9 @@ export async function addActivity(req, res){
 export async function deleteActivity(req, res){
     try{
         let activityId = req.params.id;
-        const {userName} = req.user;
-        let act = await actService.deleteActivity(activityId, userName);
+        const {userId} = req.user;
+        console.log(userId);
+        let act = await actService.deleteActivity(activityId, userId);
         res.json(act);
     } catch (e){
         res.status(e.status).json(e)
